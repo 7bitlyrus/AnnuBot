@@ -13,19 +13,19 @@ if (fs.existsSync('./config.yml')) {
 	throw new Error("config.yml does not exist! Check README.md for a config template.")
 }
 
-client.on('ready', () => {
-	console.log('Ready event emitted.');
-});
-
 client.on('message', (msg) => {
 	if(msg.author.id == client.user.id) return;
 	if(!msg.content.startsWith(config.prefix)) return;
+
+	if(message.channel.type == "dm" && !message.author.bot) {
+		message.reply(":x: This bot cannot be used in DMs!");
+	}
 
 	const args = msg.content.split(" ");
 	const cmd = args.shift().slice(config.prefix.length);
 
 	try {
-		require("./cmds/" + cmd).func(client, msg, args);
+		require("./cmds/" + cmd).func(client, msg, args, config);
 	} catch(e) {
 		console.warn(e);
 	}

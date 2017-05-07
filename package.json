@@ -18,6 +18,7 @@
   "homepage": "https://github.com/IanMurray/AnnuBot#readme",
   "dependencies": {
     "discord.js": "^11.1.0",
-    "js-yaml": "^3.8.3"
+    "js-yaml": "^3.8.3",
+    "right-pad": "^1.0.1"
   }
 }
