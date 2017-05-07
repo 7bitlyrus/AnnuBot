@@ -1,0 +1,10 @@
+# Logs
+npm-debug.log*
+node_modules/
+
+# Configs
+config.yml
+svconf/
+
+# Local Batch Files
+*.bat
