@@ -17,8 +17,9 @@ client.on('message', (msg) => {
 	if(msg.author.id == client.user.id) return;
 	if(!msg.content.startsWith(config.prefix)) return;
 
-	if(message.channel.type == "dm" && !message.author.bot) {
-		message.reply(":x: This bot cannot be used in DMs!");
+	if(msg.channel.type == "dm" && !msg.author.bot) {
+		msg.reply(":x: This bot cannot be used in DMs!");
+		return;
 	}
 
 	const args = msg.content.split(" ");
