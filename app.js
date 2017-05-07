@@ -17,6 +17,20 @@ client.on('ready', () => {
 	console.log('Ready event emitted.');
 });
 
+client.on('message', (msg) => {
+	if(msg.author.id == client.user.id) return;
+	if(!msg.content.startsWith(config.prefix)) return;
+
+	const args = msg.content.split(" ");
+	const cmd = args.shift().slice(config.prefix.length);
+
+	try {
+		require("./cmds/" + cmd).func(client, msg, args);
+	} catch(e) {
+		console.warn(e);
+	}
+});
+
 client.on('debug', console.log);
 client.on('error', console.error);
 client.on('warn', console.warn);
