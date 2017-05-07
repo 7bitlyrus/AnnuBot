@@ -17,4 +17,9 @@ client.on('ready', () => {
 	console.log('Ready event emitted.');
 });
 
+client.on('debug', console.log);
+client.on('error', console.error);
+client.on('warn', console.warn);
+client.on('disconnect', console.warn);
+
 client.login(config.token);
