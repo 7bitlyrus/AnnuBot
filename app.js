@@ -13,4 +13,8 @@ if (fs.existsSync('./config.yml')) {
 	throw new Error("config.yml does not exist! Check README.md for a config template.")
 }
 
+client.on('ready', () => {
+	console.log('Ready event emitted.');
+});
+
 client.login(config.token);
