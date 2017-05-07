@@ -7,3 +7,4 @@ exports.func = function(client, msg, args, config) {
 };
 
 exports.description = "Returns information about latency.";
+exports.allowedInDM = true;

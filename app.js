@@ -17,16 +17,18 @@ client.on('message', (msg) => {
 	if(msg.author.id == client.user.id) return;
 	if(!msg.content.startsWith(config.prefix)) return;
 
-	if(msg.channel.type == "dm" && !msg.author.bot) {
-		msg.reply(":x: This bot cannot be used in DMs!");
-		return;
-	}
-
 	const args = msg.content.split(" ");
 	const cmd = args.shift().slice(config.prefix.length);
 
+	const cmdscript = require("./cmds/" + cmd);
+
+	if(msg.channel.type == "dm" && !msg.author.bot && !cmdscript.allowedInDM) {
+		msg.reply(":x: This command is not allowed in DMs!");
+		return;
+	}
+
 	try {
-		require("./cmds/" + cmd).func(client, msg, args, config);
+		cmdscript.func(client, msg, args, config);
 	} catch(e) {
 		console.warn(e);
 	}

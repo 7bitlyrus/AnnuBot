@@ -16,7 +16,11 @@ exports.func = function(client, msg, args, config) {
 			});
 			text += "\`\`\`"
 
-			msg.author.send(text).then(msg.channel.send(`:mailbox_with_mail: Check your DMs`));
+			msg.author.send(text).then(() => {
+				if(msg.channel.type !== "dm") {
+					msg.reply(`:mailbox_with_mail: Check your DMs`)
+				}
+			});
 		});
 	} catch(e) {
 		console.warn(e);
@@ -24,3 +28,4 @@ exports.func = function(client, msg, args, config) {
 };
 
 exports.description = "Messages help on commands to the requester.";
+exports.allowedInDM = true;
