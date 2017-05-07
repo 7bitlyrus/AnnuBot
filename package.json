@@ -1,0 +1,23 @@
+{
+  "name": "annubot",
+  "version": "0.0.0",
+  "description": "Yet another Discord bot written in Discord.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IanMurray/AnnuBot.git"
+  },
+  "author": "Ian Murray <ian@murr.pro>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IanMurray/AnnuBot/issues"
+  },
+  "homepage": "https://github.com/IanMurray/AnnuBot#readme",
+  "dependencies": {
+    "discord.js": "^11.1.0",
+    "js-yaml": "^3.8.3"
+  }
+}
