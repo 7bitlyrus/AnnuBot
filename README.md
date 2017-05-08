@@ -3,6 +3,8 @@ Yet another Discord bot written in Discord.js.
 
 ## Config Template
 ```yml
-token: --your-token--
-prefix: ! # or something else, can be multichar
+token: # Your bot token.
+prefix: # Command prefix, for example >> or !
+ownerid: # Your user id
+instanceinfo: # Text details about this copy of Annu.
 ```

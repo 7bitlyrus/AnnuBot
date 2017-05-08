@@ -20,7 +20,7 @@ client.on('message', (msg) => {
 	const args = msg.content.split(" ");
 	const cmd = args.shift().slice(config.prefix.length);
 
-	const cmdscript = require("./cmds/" + cmd);
+	let cmdscript = require("./cmds/" + cmd);
 
 	if(msg.channel.type == "dm" && !msg.author.bot && !cmdscript.allowedInDM) {
 		msg.reply(":x: This command is not allowed in DMs!");
