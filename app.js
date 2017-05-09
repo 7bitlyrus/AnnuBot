@@ -15,17 +15,25 @@ if (fs.existsSync('./config.yml')) {
 
 client.on('ready', () => {
 	client.config = config
+
+	client.loadGuildConfig = function(guild) {
+		if (!fs.existsSync(`./svconf/${guild.id}.yml`)) {
+			fs.closeSync(fs.openSync(`./svconf/${guild.id}.yml`, 'w'));
+		}
+		return yaml.safeLoad(fs.readFileSync(`./svconf/${guild.id}.yml`, 'utf8'));
+	}
+
 	fs.readdir("./events/", (err, files) => {
-			var indexed = [];
+		var indexed = [];
 
-			files.forEach(file => {
-				indexed.push(file.slice(0, -3));
-			});
-
-			indexed.forEach(event => {
-				client.on(event, (...args) => require(`./events/${event}`).func(client, ...args));
-			});
+		files.forEach(file => {
+			indexed.push(file.slice(0, -3));
 		});
+
+		indexed.forEach(event => {
+			client.on(event, (...args) => require(`./events/${event}`).func(client, ...args));
+		});
+	});
 });
 
 client.on('message', (msg) => {
