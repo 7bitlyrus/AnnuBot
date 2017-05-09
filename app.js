@@ -23,6 +23,14 @@ client.on('ready', () => {
 		return yaml.safeLoad(fs.readFileSync(`./svconf/${guild.id}.yml`, 'utf8'));
 	}
 
+	client.writeGuildConfig = function(guild, config) {
+		if (!fs.existsSync(`./svconf/${guild.id}.yml`)) {
+			fs.closeSync(fs.openSync(`./svconf/${guild.id}.yml`, 'w'));
+		}
+		fs.writeFileSync(`./svconf/${guild.id}.yml`, yaml.safeDump(config), 'utf8')
+		return true
+	}
+
 	fs.readdir("./events/", (err, files) => {
 		var indexed = [];
 
