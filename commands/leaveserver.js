@@ -11,7 +11,7 @@ exports.func = function(client, msg, args) {
 
 		client.guilds.get(args[0]).leave()
 			.then(g => msg.reply(`:put_litter_in_its_place:  Left ${g}`))
-			.catch(e => throw e);
+			.catch(e => console.warn(e));
 		return;
 	} catch(e) {
 		console.warn(e);
