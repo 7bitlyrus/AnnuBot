@@ -1,10 +1,11 @@
 var fs = require('fs');
 var rightPad  = require('right-pad');
 
-exports.func = function(client, msg, args, config) {
-	var indexed = [];
+exports.func = function(client, msg, args) {
 	try {
-		fs.readdir("./cmds/", (err, files) => {
+		fs.readdir("./commands/", (err, files) => {
+			var indexed = [];
+
 			files.forEach(file => {
 				indexed.push(file.slice(0, -3)); 
 			});
@@ -12,7 +13,7 @@ exports.func = function(client, msg, args, config) {
 			var text = "\`\`\`"
 			indexed.forEach(cmd => {
 				cmdhelp = require(`./${cmd}.js`).description;
-				text += `\n${config.prefix}${rightPad(cmd, 16, " ")} - ${cmdhelp}`
+				text += `\n${client.config.prefix}${rightPad(cmd, 16, " ")} - ${cmdhelp}`
 			});
 			text += "\`\`\`"
 

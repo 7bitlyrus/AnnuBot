@@ -13,6 +13,21 @@ if (fs.existsSync('./config.yml')) {
 	throw new Error("config.yml does not exist! Check README.md for a config template.")
 }
 
+client.on('ready', () => {
+	client.config = config
+	fs.readdir("./events/", (err, files) => {
+			var indexed = [];
+
+			files.forEach(file => {
+				indexed.push(file.slice(0, -3));
+			});
+
+			indexed.forEach(event => {
+				client.on(event, (...args) => require(`./events/${event}`).func(client, ...args));
+			});
+		});
+});
+
 client.on('message', (msg) => {
 	if(msg.author.id == client.user.id) return;
 	if(!msg.content.startsWith(config.prefix)) return;
@@ -20,18 +35,19 @@ client.on('message', (msg) => {
 	const args = msg.content.split(" ");
 	const cmd = args.shift().slice(config.prefix.length);
 
-	let cmdscript = require("./cmds/" + cmd);
+	try {
+		cmdscript = require(`./commands/${cmd}`);
+	} catch(e) {
+		console.warn(e);
+		return;
+	}
 
 	if(msg.channel.type == "dm" && !msg.author.bot && !cmdscript.allowedInDM) {
 		msg.reply(":x: This command is not allowed in DMs!");
 		return;
 	}
 
-	try {
-		cmdscript.func(client, msg, args, config);
-	} catch(e) {
-		console.warn(e);
-	}
+	cmdscript.func(client, msg, args);
 });
 
 client.on('debug', console.log);
