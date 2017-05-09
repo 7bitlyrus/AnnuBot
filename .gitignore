@@ -4,7 +4,7 @@ node_modules/
 
 # Configs
 config.yml
-svconf/
+svconf/*.yml
 
 # Local Batch Files
 *.bat

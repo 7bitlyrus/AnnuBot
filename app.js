@@ -18,17 +18,30 @@ client.on('ready', () => {
 
 	client.loadGuildConfig = function(guild) {
 		if (!fs.existsSync(`./svconf/${guild.id}.yml`)) {
-			fs.closeSync(fs.openSync(`./svconf/${guild.id}.yml`, 'w'));
+			defcfg = {id: guild.id};
+			fs.writeFileSync(`./svconf/${guild.id}.yml`, yaml.safeDump(defcfg), 'utf8');
 		}
-		return yaml.safeLoad(fs.readFileSync(`./svconf/${guild.id}.yml`, 'utf8'));
+		var config = yaml.safeLoad(fs.readFileSync(`./svconf/${guild.id}.yml`, 'utf8'));
+		return config
 	}
 
 	client.writeGuildConfig = function(guild, config) {
-		if (!fs.existsSync(`./svconf/${guild.id}.yml`)) {
-			fs.closeSync(fs.openSync(`./svconf/${guild.id}.yml`, 'w'));
-		}
-		fs.writeFileSync(`./svconf/${guild.id}.yml`, yaml.safeDump(config), 'utf8')
+		fs.writeFileSync(`./svconf/${guild.id}.yml`, yaml.safeDump(config), 'utf8');
 		return true
+	}
+
+	client.logToGuild = function(guild, message) {
+		try {
+			serverconfig = client.loadGuildConfig(guild);
+			if(!serverconfig.logs) return;
+			guild.channels.get(serverconfig.logs).send(message);
+		} catch(e) {
+			console.warn(e);
+		}
+	}
+
+	client.formatUser = function(user) {
+		return `**${user.tag}** (\`${user.id}\`)`
 	}
 
 	fs.readdir("./events/", (err, files) => {
