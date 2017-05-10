@@ -17,7 +17,7 @@ client.on('ready', () => {
 	client.config = config
 
 	client.loadGuildConfig = function(guild) {
-		if(msg.channel.type == "dm") return false
+		if(!guild) return false
 		if (!fs.existsSync(`./svconf/${guild.id}.yml`)) {
 			defcfg = {id: guild.id};
 			fs.writeFileSync(`./svconf/${guild.id}.yml`, yaml.safeDump(defcfg), 'utf8');
@@ -27,12 +27,12 @@ client.on('ready', () => {
 	}
 
 	client.writeGuildConfig = function(guild, config) {
-		if(msg.channel.type == "dm") return false
+		if(!guild) return false
 		fs.writeFileSync(`./svconf/${guild.id}.yml`, yaml.safeDump(config), 'utf8');
 	}
 
 	client.logToGuild = function(guild, message) {
-		if(msg.channel.type == "dm") return false
+		if(!guild) return false
 		try {
 			serverconfig = client.loadGuildConfig(guild);
 			if(!serverconfig.logs) return;
