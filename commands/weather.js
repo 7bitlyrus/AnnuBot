@@ -17,7 +17,7 @@ exports.func = function(client, msg, args) {
 		})
 		.catch((err) => {
 			if(err) {
-				console.log(err)
+				console.warn(err)
 			}
 		});
 
