@@ -1,6 +1,6 @@
 exports.func = function(client, msg, args) {
 	try {
-		if(!(msg.member.hasPermission("MANAGE_GUILD") || msg.author.id == client.config.ownerid)) {
+		if(!(msg.member.hasPermission("MANAGE_GUILD") || msg.author.id == client.config.instance.ownerid)) {
 			msg.reply(":x: Access denied.");
 			return;
 		}

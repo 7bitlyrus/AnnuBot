@@ -13,7 +13,7 @@ exports.func = function(client, msg, args) {
 			var text = "\`\`\`"
 			indexed.forEach(cmd => {
 				cmdhelp = require(`./${cmd}.js`).description;
-				text += `\n${client.config.prefix}${rightPad(cmd, 16, " ")} - ${cmdhelp}`
+				text += `\n${client.config.instance.prefix}${rightPad(cmd, 16, " ")} - ${cmdhelp}`
 			});
 			text += "\`\`\`"
 

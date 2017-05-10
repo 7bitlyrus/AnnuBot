@@ -1,5 +1,5 @@
 exports.func = function(client, msg, args) {
-	if(!(msg.member.hasPermission("BAN_MEMBERS") || msg.author.id == client.config.ownerid)) {
+	if(!(msg.member.hasPermission("BAN_MEMBERS") || msg.author.id == client.config.instance.ownerid)) {
 		msg.reply(":x: Access denied.");
 		return;
 	}

@@ -61,10 +61,10 @@ client.on('ready', () => {
 
 client.on('message', (msg) => {
 	if(msg.author.id == client.user.id) return;
-	if(!msg.content.startsWith(config.prefix)) return;
+	if(!msg.content.startsWith(config.instance.prefix)) return;
 
 	const args = msg.content.split(" ");
-	const cmd = args.shift().slice(config.prefix.length);
+	const cmd = args.shift().slice(config.instance.prefix.length);
 
 	try {
 		cmdscript = require(`./commands/${cmd}`);
@@ -77,7 +77,6 @@ client.on('message', (msg) => {
 		msg.reply(":x: This command is not allowed in DMs!");
 		return;
 	}
-
 	cmdscript.func(client, msg, args);
 });
 
@@ -86,4 +85,5 @@ client.on('error', console.error);
 client.on('warn', console.warn);
 client.on('disconnect', console.warn);
 
-client.login(config.token);
+console.log(config)
+client.login(config.instance.token);
