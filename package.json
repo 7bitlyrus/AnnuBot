@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/IanMurray/AnnuBot#readme",
   "dependencies": {
+    "bufferutil": "^3.0.0",
     "discord.js": "^11.1.0",
+    "erlpack": "github:hammerandchisel/erlpack",
     "js-yaml": "^3.8.3",
-    "right-pad": "^1.0.1"
+    "right-pad": "^1.0.1",
+    "uws": "^0.14.5"
   }
 }
