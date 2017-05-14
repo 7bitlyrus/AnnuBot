@@ -3,7 +3,7 @@ exports.func = (client, oldUser, newUser) => {
 		client.guilds.reduce((list, guild) => {
 			guild.fetchMember(newUser)
 				.then((user) => {
-					client.logToGuild(guild, `:pen_ballpoint: ${client.formatUser(oldUser)} tag was changed to \`${newUser.tag}\``);
+					client.logToGuild(guild, `:pen_ballpoint: ${client.formatUser(newUser)} tag was changed from \`${oldUser.tag}\` to \`${newUser.tag}\``);
 			}).catch((err) => { return; });
 		}, []);
 	}
