@@ -22,6 +22,7 @@
     "erlpack": "github:hammerandchisel/erlpack",
     "js-yaml": "^3.8.3",
     "right-pad": "^1.0.1",
+    "timehaze": "^0.2.0",
     "uws": "^0.14.5"
   }
 }
