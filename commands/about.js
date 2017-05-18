@@ -18,3 +18,4 @@ exports.func = function(client, msg, args) {
 
 exports.description = "Returns information about this bot instance.";
 exports.allowedInDM = true;
+exports.displayHelp = true;

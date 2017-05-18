@@ -18,5 +18,6 @@ exports.func = function(client, msg, args) {
 	}
 };
 
-exports.description = "Leaves the specified server by id. [Bot owner only]";
+exports.description = "Leaves the specified server by id. [Owner only]";
 exports.allowedInDM = true;
+exports.displayHelp = false;

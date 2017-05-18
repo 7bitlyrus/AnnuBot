@@ -12,8 +12,11 @@ exports.func = function(client, msg, args) {
 
 			var text = "\`\`\`"
 			indexed.forEach(cmd => {
-				cmdhelp = require(`./${cmd}.js`).description;
-				text += `\n${client.config.instance.prefix}${rightPad(cmd, 16, " ")} - ${cmdhelp}`
+				cmdfile = require(`./${cmd}.js`)
+				if(cmdfile.displayHelp || (msg.author.id == client.config.instance.ownerid)) {
+					cmdhelp = cmdfile.description;
+					text += `\n${client.config.instance.prefix}${rightPad(cmd, 16, " ")} - ${cmdhelp}`
+				}
 			});
 			text += "\`\`\`"
 
@@ -30,3 +33,4 @@ exports.func = function(client, msg, args) {
 
 exports.description = "Messages help on commands to the requester.";
 exports.allowedInDM = true;
+exports.displayHelp = true;

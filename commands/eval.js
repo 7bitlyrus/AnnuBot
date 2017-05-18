@@ -25,5 +25,6 @@ function clean(text) {
 	}
 }
 
-exports.description = "Evaluates JavaScript code. [Bot owner only]";
+exports.description = "Evaluates JavaScript code. [Owner only]";
 exports.allowedInDM = true;
+exports.displayHelp = false;

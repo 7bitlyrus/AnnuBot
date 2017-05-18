@@ -16,5 +16,6 @@ exports.func = function(client, msg, args) {
 	}
 };
 
-exports.description = "Lists the servers the bot is currently in. [Bot owner only]";
+exports.description = "Lists the servers the bot is currently in. [Owner only]";
 exports.allowedInDM = true;
+exports.displayHelp = false;

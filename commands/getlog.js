@@ -18,3 +18,4 @@ exports.func = function(client, msg, args) {
 
 exports.description = "Returns the logging channel for the server. [Requires Manage Server permission]";
 exports.allowedInDM = false;
+exports.displayHelp = true;
