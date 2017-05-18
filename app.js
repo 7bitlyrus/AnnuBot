@@ -85,5 +85,4 @@ client.on('error', console.error);
 client.on('warn', console.warn);
 client.on('disconnect', console.warn);
 
-console.log(config)
 client.login(config.instance.token);
