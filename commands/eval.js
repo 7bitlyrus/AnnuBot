@@ -11,9 +11,9 @@ exports.func = function(client, msg, args) {
         	result = require('util').inspect(result);
 		}
 
-		msg.reply(clean(result), {code:'xl'})
+		msg.reply(clean(result), {code:'xl', split: true})
 	} catch(e) {
-		msg.reply(`:interrobang: Error.\`\`\`xl\n${clean(e)}\`\`\``);
+		msg.reply(`:interrobang: Error.\`\`\`xl\n${clean(e)}\`\`\``, {split: true});
 	}
 };
 

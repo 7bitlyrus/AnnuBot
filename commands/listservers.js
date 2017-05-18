@@ -10,7 +10,7 @@ exports.func = function(client, msg, args) {
 			text += `${guild["name"]} (\`${guild["id"]}\`)\n`
 		}, []);
 
-		msg.reply(text);
+		msg.reply(text, {split: true});
 	} catch(e) {
 		console.warn(e);
 	}

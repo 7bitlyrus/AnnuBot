@@ -36,7 +36,7 @@ client.on('ready', () => {
 		try {
 			serverconfig = client.loadGuildConfig(guild);
 			if(!serverconfig.logs) return;
-			guild.channels.get(serverconfig.logs).send(message);
+			guild.channels.get(serverconfig.logs).send(message, {split: true});
 		} catch(e) {
 			console.warn(e);
 		}
