@@ -57,6 +57,8 @@ client.on('ready', () => {
 			client.on(event, (...args) => require(`./events/${event}`).func(client, ...args));
 		});
 	});
+
+	client.user.setGame(`${client.config.instance.prefix}help`)
 });
 
 client.on('message', (msg) => {
