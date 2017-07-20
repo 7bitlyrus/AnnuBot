@@ -7,5 +7,5 @@ instance:
   token: # Your bot token.
   ownerid: # Your user id
   prefix: # Command prefix, for example >> or !
-  instanceinfo: # Text details about this copy of Annu.
+  details: # Text details about this copy of Annu.
 ```
