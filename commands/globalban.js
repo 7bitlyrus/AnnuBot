@@ -27,7 +27,7 @@ exports.func = function(client, msg, args) {
 			guild.ban(vict, `Global ban: ${reason}`)
 			.then((user) => {
 
-				msg.channel.send(`:regional_indicator_f: Banned from ${guild["name"]} (\`${guild["id"]}\`)\n`);
+				mext += `:regional_indicator_f: Banned from ${guild["name"]} (\`${guild["id"]}\`)\n`)
 
 				if(typeof user == "string") {
 					guild.fetchBans().then(bans => {
@@ -41,12 +41,12 @@ exports.func = function(client, msg, args) {
 			.catch((err) => {
 				if(err) {
 					console.log(err)
-					msg.channel.send(`:x: Unable to ban in ${guild["name"]} (\`${guild["id"]}\`)\n`);
+					text += `:x: Unable to ban in ${guild["name"]} (\`${guild["id"]}\`)\n`
 				}
 			});
 		}, []);
 
-		msg.reply(text, {split: true});
+		setTimeout(function2 msg.reply(text, {split: true}), 5000) // If it's stupid and it works, it's not stupid
 	} catch(e) {
 		console.warn(e);
 	}
