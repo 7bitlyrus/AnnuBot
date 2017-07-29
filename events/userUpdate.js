@@ -1,5 +1,5 @@
 exports.func = (client, oldUser, newUser) => {
-	if(!(oldUser.tag == newUser.tag)) {
+	if(oldUser.tag != newUser.tag) {
 		client.guilds.reduce((list, guild) => {
 			guild.fetchMember(newUser)
 				.then((user) => {
