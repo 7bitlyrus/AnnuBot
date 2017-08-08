@@ -5,7 +5,8 @@ exports.func = (client, oldMember, newMember) => {
 
 		client.logToGuild(newMember.guild, `:name_badge: ${client.formatUser(newMember.user)} nickname was changed from ${oldFormatted} to ${newFormatted}`);
 	}
-	if(oldMember.roles != newMember.roles) {
+
+	if(!oldMember.roles.equals(newMember.roles)) {
 		oldArray = [];
 		newArray = [];
 
