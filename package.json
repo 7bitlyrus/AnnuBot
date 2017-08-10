@@ -1,6 +1,6 @@
 {
   "name": "annubot",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Yet another Discord bot written in Discord.js",
   "main": "app.js",
   "scripts": {
