@@ -36,6 +36,6 @@ exports.func = function(client, msg, args) {
 	});
 };
 
-exports.description = "Bans the specified user id for the specified reason (optional) [Requires Ban Members permission]";
+exports.description = "Bans the specified user id for the specified reason [Requires Ban Members permission]";
 exports.allowedInDM = false;
 exports.displayHelp = true;
