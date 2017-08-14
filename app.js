@@ -71,7 +71,6 @@ client.on('message', (msg) => {
 	try {
 		cmdscript = require(`./commands/${cmd}`);
 	} catch(e) {
-		console.warn(e);
 		return;
 	}
 
