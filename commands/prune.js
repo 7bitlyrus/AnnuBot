@@ -19,14 +19,11 @@ exports.func = function(client, msg, args) {
 		return;
 	}
 
-	msg.channel.bulkDelete(Number(args[0]) + 1, true).then((msgs) => { // Extra message forcommand.
+	msg.channel.bulkDelete(Number(args[0]) + 1, true).then((msgs) => { // Extra message for command.
 		msg.reply(msgs.size == 2 ? "**1** message pruned." : `**${msgs.size-1}** messages pruned.`);
 	}).catch((e) => {
 		msg.reply(":x: An error occurred.");
 	})
-
-
-	
 };
 
 exports.description = "Prunes messages from channel. [Requires Manage Messages permission]";
