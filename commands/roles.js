@@ -1,4 +1,4 @@
-return false;
+// return;
 
 exports.func = function(client, msg, args) {
 	try {
@@ -6,7 +6,7 @@ exports.func = function(client, msg, args) {
 
 		if(!args[0]) {
 			// TODO
-			msg.reply(`:scroll: Allowed roles list:\n--list of allowed roles here--\n\nTo add or remove a role to yourself use \`${client.config.instance.prefix}roles add\` or \`${client.config.instance.prefix}roles remove\`. If you have the Manage Roles permission you can manage these roles with \`${client.config.instance.prefix}roles manage\`.`, {split: true});
+			msg.reply(`:scroll: Self-serve roles list:\n--list of self-serve roles here--\n\nTo add or remove a role to yourself use \`${client.config.instance.prefix}roles add\` or \`${client.config.instance.prefix}roles remove\`. If you have the Manage Roles permission you can manage these roles with \`${client.config.instance.prefix}roles manage\`.`, {split: true});
 			return;
 		}
 
@@ -24,20 +24,19 @@ exports.func = function(client, msg, args) {
 				}
 
 				if(!args[1]) {
-					rolelist = ":scroll: Roles list:\n";
+					rolelist = ":scroll: List of all roles:```\n";
 					msg.guild.roles.reduce((snowflake, role) => {
 						if(role.id == role.guild.id) return; // filters out @everyone
-						rolelist += `${role.name} (\`${role.id}\`)\n`
+						rolelist += `${role.id} - ${role.name}\n`
 					}, []);
-					msg.reply(`${rolelist}\n\nTo add or remove a role from the allowed roles list use \`${client.config.instance.prefix}roles manage add\` or \`${client.config.instance.prefix}roles manage remove\`.`, {split: true});
+					msg.reply(`${rolelist}\`\`\`\n\nTo add or remove a role from the self-serve roles list use \`${client.config.instance.prefix}roles manage add\` or \`${client.config.instance.prefix}roles manage remove\`.`, {split: true});
 					return;
 				}
 
 				switch(args[1].toLowerCase()) {
 					case "add":
 						try {
-							args.shift()
-							args.shift()
+							args.splice(0, 2);
 
 							id = resolveRole(msg.guild.roles, args)
 							if(!id) {
@@ -45,17 +44,52 @@ exports.func = function(client, msg, args) {
 								break;
 							}
 
-							serverconfig["selfroles"] = (serverconfig["selfroles"] || "") + id + ",";
+							selfroles = (serverconfig["selfroles"] || "").split(",");
+
+							if(selfroles.indexOf(id) != -1) {
+								msg.reply(":x: Role is already in self-serve roles list!")
+								break;	
+							}
+
+							selfroles.push(id);
+
+							serverconfig["selfroles"] = selfroles.toString();
 							msg.client.writeGuildConfig(msg.guild, serverconfig);
 
-							msg.reply("Role added maybe")
+							msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was added to the self-serve roles list.`)
 						} catch(e) {
-							msg.reply(":x: Unable to add role to allowed roles list.")
+							console.warn(e);
+							msg.reply(":x: Unable to add role to self-serve roles list.")
 						}
 					break;
 
 					case "remove":
-						// TODO
+						try {
+							args.splice(0, 2);
+
+							id = resolveRole(msg.guild.roles, args)
+							if(!id) {
+								msg.reply(":x: Unable to find role on server.")
+								break;
+							}
+
+							selfroles = (serverconfig["selfroles"] || "").split(",");
+
+							if(selfroles.indexOf(id) == -1) {
+								msg.reply(":x: Role is not in self-serve roles list!")
+								break;	
+							}
+
+							selfroles = selfroles.filter(function(e) { return e !== id })
+
+							serverconfig["selfroles"] = selfroles.toString();
+							msg.client.writeGuildConfig(msg.guild, serverconfig);
+
+							msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was removed from the self-serve roles list.`)
+						} catch(e) {
+							console.warn(e);
+							msg.reply(":x: Unable to remove role to self-serve roles list.")
+						}
 					break;
 
 					default:
@@ -72,7 +106,7 @@ exports.func = function(client, msg, args) {
 	}
 };
 
-exports.description = "Give or remove allowed roles from yourself. [Requires Manage Server permission]";
+exports.description = "Give or remove self-serve roles from yourself. [Requires Manage Server permission]";
 exports.allowedInDM = false;
 exports.displayHelp = true;
 
