@@ -1,3 +1,5 @@
+return false;
+
 exports.func = function(client, msg, args) {
 	try {
 		serverconfig = client.loadGuildConfig(msg.guild);

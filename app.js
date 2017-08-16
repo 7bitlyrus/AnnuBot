@@ -78,7 +78,11 @@ client.on('message', (msg) => {
 		msg.reply(":x: This command is not allowed in DMs!");
 		return;
 	}
-	cmdscript.func(client, msg, args);
+	try {
+		cmdscript.func(client, msg, args);
+	} catch(e) {
+		console.warn(e);
+	}
 });
 
 client.on('debug', console.log);
