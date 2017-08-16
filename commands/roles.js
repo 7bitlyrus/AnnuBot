@@ -33,7 +33,23 @@ exports.func = function(client, msg, args) {
 
 				switch(args[1].toLowerCase()) {
 					case "add":
-						// TODO
+						try {
+							args.shift()
+							args.shift()
+
+							id = resolveRole(msg.guild.roles, args)
+							if(!id) {
+								msg.reply(":x: Unable to find role on server.")
+								break;
+							}
+
+							serverconfig["selfroles"] = (serverconfig["selfroles"] || "") + id + ",";
+							msg.client.writeGuildConfig(msg.guild, serverconfig);
+
+							msg.reply("Role added maybe")
+						} catch(e) {
+							msg.reply(":x: Unable to add role to allowed roles list.")
+						}
 					break;
 
 					case "remove":
@@ -43,6 +59,8 @@ exports.func = function(client, msg, args) {
 					default:
 						msg.reply(":x: Invaild argument.");
 				};
+
+				break;
 
 			default:
 				msg.reply(":x: Invaild argument.")
@@ -55,3 +73,19 @@ exports.func = function(client, msg, args) {
 exports.description = "Give or remove allowed roles from yourself. [Requires Manage Server permission]";
 exports.allowedInDM = false;
 exports.displayHelp = true;
+
+function resolveRole(roles, args) {
+	try {
+		if(args[0].match(/^\d+$/)) {
+			id = roles.find(role => role.id == args[0]).id;
+		} else if(args[0].match(/^<@&(.+)>$/)) {
+			id = roles.find(role => role.id == args[0].match(/^<@&(.+)>$/)[1]).id;
+		} else {
+			id = roles.find(role => role.name.toLowerCase() == args.join(" ").toLowerCase()).id;
+		}
+		return id;
+	} catch(e) {
+		return null;
+		console.warn(e);
+	}
+}
