@@ -1,21 +1,71 @@
-// return;
-
 exports.func = function(client, msg, args) {
 	try {
 		serverconfig = client.loadGuildConfig(msg.guild);
 
 		if(!args[0]) {
-			// TODO
-			msg.reply(`:scroll: Self-serve roles list:\n--list of self-serve roles here--\n\nTo add or remove a role to yourself use \`${client.config.instance.prefix}roles add\` or \`${client.config.instance.prefix}roles remove\`. If you have the Manage Roles permission you can manage these roles with \`${client.config.instance.prefix}roles manage\`.`, {split: true});
+			selfroles = (serverconfig["selfroles"] || "").split(",");
+
+			rolelist = ":scroll: Self-serve roles list:```\n";
+			selfroles.forEach((snowflake) => {
+				role = msg.guild.roles.find(role => role.id == snowflake);
+				if(!role) return;
+				rolelist += `${role.id} - ${role.name}\n`;
+			});
+
+			msg.reply(`${rolelist}\`\`\`\n\nTo add or remove a role to yourself use \`${client.config.instance.prefix}roles add\` or \`${client.config.instance.prefix}roles remove\`. If you have the Manage Roles permission you can manage these roles with \`${client.config.instance.prefix}roles manage\`.`, {split: true});
 			return;
 		}
 
 		switch(args[0].toLowerCase()) {
 			case "add":
-				// TODO
+				try {
+					args.shift();
+
+					id = resolveRole(msg.guild.roles, args)
+					if(!id) {
+						msg.reply(":x: Unable to find role on server.")
+						break;
+					}
+
+					selfroles = (serverconfig["selfroles"] || "").split(",");
+
+					if(selfroles.indexOf(id) == -1) {
+						msg.reply(":x: Role is not in self-serve roles list!");
+						break;	
+					}
+
+					msg.member.addRole(id);
+					msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was given to you.`);
+				} catch(e) {
+					console.warn(e);
+					msg.reply(":x: Unable to grant role.");
+				}
+				break;
 
 			case "remove":
-				// TODO
+				try {
+					args.shift();
+
+					id = resolveRole(msg.guild.roles, args)
+					if(!id) {
+						msg.reply(":x: Unable to find role on server.")
+						break;
+					}
+
+					selfroles = (serverconfig["selfroles"] || "").split(",");
+
+					if(selfroles.indexOf(id) == -1) {
+						msg.reply(":x: Role is not in self-serve roles list!");
+						break;	
+					}
+
+					msg.member.removeRole(id);
+					msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was removed from you.`);
+				} catch(e) {
+					console.warn(e);
+					msg.reply(":x: Unable to remove role.");
+				}
+				break;
 
 			case "manage":
 				if(!(msg.member.hasPermission("MANAGE_ROLES") || msg.author.id == client.config.ownerid)) {
@@ -40,14 +90,14 @@ exports.func = function(client, msg, args) {
 
 							id = resolveRole(msg.guild.roles, args)
 							if(!id) {
-								msg.reply(":x: Unable to find role on server.")
+								msg.reply(":x: Unable to find role on server.");
 								break;
 							}
 
 							selfroles = (serverconfig["selfroles"] || "").split(",");
 
 							if(selfroles.indexOf(id) != -1) {
-								msg.reply(":x: Role is already in self-serve roles list!")
+								msg.reply(":x: Role is already in self-serve roles list!");
 								break;	
 							}
 
@@ -56,10 +106,10 @@ exports.func = function(client, msg, args) {
 							serverconfig["selfroles"] = selfroles.toString();
 							msg.client.writeGuildConfig(msg.guild, serverconfig);
 
-							msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was added to the self-serve roles list.`)
+							msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was added to the self-serve roles list.`);
 						} catch(e) {
 							console.warn(e);
-							msg.reply(":x: Unable to add role to self-serve roles list.")
+							msg.reply(":x: Unable to add role to self-serve roles list.");
 						}
 					break;
 
@@ -69,26 +119,26 @@ exports.func = function(client, msg, args) {
 
 							id = resolveRole(msg.guild.roles, args)
 							if(!id) {
-								msg.reply(":x: Unable to find role on server.")
+								msg.reply(":x: Unable to find role on server.");
 								break;
 							}
 
 							selfroles = (serverconfig["selfroles"] || "").split(",");
 
 							if(selfroles.indexOf(id) == -1) {
-								msg.reply(":x: Role is not in self-serve roles list!")
+								msg.reply(":x: Role is not in self-serve roles list!");
 								break;	
 							}
 
-							selfroles = selfroles.filter(function(e) { return e !== id })
+							selfroles = selfroles.filter(function(e) { return e !== id });
 
 							serverconfig["selfroles"] = selfroles.toString();
 							msg.client.writeGuildConfig(msg.guild, serverconfig);
 
-							msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was removed from the self-serve roles list.`)
+							msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was removed from the self-serve roles list.`);
 						} catch(e) {
 							console.warn(e);
-							msg.reply(":x: Unable to remove role to self-serve roles list.")
+							msg.reply(":x: Unable to remove role to self-serve roles list.");
 						}
 					break;
 
