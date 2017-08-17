@@ -11,8 +11,14 @@ exports.func = function(client, msg, args) {
 				if(!role) return;
 				rolelist += `${role.id} - ${role.name}\n`;
 			});
+			rolelist += "```"
 
-			msg.reply(`${rolelist}\`\`\`\n\nTo add or remove a role to yourself use \`${client.config.instance.prefix}roles add\` or \`${client.config.instance.prefix}roles remove\`. If you have the Manage Roles permission you can manage these roles with \`${client.config.instance.prefix}roles manage\`.`, {split: true});
+			if(rolelist.match(/```\n```$/)) {
+				msg.reply(`This server has no self-serve roles. If you have the Manage Roles permission, you can add one with \`${client.config.instance.prefix}roles manage\`.`)
+				return;
+			}
+
+			msg.reply(`${rolelist}\n\nTo add or remove a role from yourself use \`${client.config.instance.prefix}roles add\` or \`${client.config.instance.prefix}roles remove\`. If you have the Manage Roles permission, you can manage these roles with \`${client.config.instance.prefix}roles manage\`.`, {split: true});
 			return;
 		}
 
