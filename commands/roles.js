@@ -34,8 +34,12 @@ exports.func = function(client, msg, args) {
 						break;	
 					}
 
-					msg.member.addRole(id);
-					msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was given to you.`);
+					msg.member.addRole(id).then(() => {
+						msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was given to you.`);	
+					}).catch(() => {
+						msg.reply(":x: Unable to grant role.");
+					})
+
 				} catch(e) {
 					console.warn(e);
 					msg.reply(":x: Unable to grant role.");
@@ -59,8 +63,11 @@ exports.func = function(client, msg, args) {
 						break;	
 					}
 
-					msg.member.removeRole(id);
-					msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was removed from you.`);
+					msg.member.removeRole(id).then(() => {
+						msg.reply(`:white_check_mark: **${msg.guild.roles.find(role => role.id == id).name}** was removed from you.`);	
+					}).catch(() => {
+						msg.reply(":x: Unable to remove role.");
+					})
 				} catch(e) {
 					console.warn(e);
 					msg.reply(":x: Unable to remove role.");
