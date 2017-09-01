@@ -169,7 +169,7 @@ exports.func = function(client, msg, args) {
 	}
 };
 
-exports.description = "Give or remove self-serve roles from yourself. [Requires Manage Server permission]";
+exports.description = "Give or remove self-serve roles from yourself.";
 exports.allowedInDM = false;
 exports.displayHelp = true;
 
