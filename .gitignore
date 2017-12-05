@@ -1,10 +1,4 @@
 # Logs
 npm-debug.log*
 node_modules/
-
-# Configs
-config.yml
-svconf/*.yml
-
-# Local Batch Files
-*.bat
+config.json

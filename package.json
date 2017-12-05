@@ -1,8 +1,8 @@
 {
   "name": "annubot",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Yet another Discord bot written in Discord.js",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,12 +17,6 @@
   },
   "homepage": "https://github.com/IanMurray/AnnuBot#readme",
   "dependencies": {
-    "bufferutil": "^3.0.0",
-    "discord.js": "^11.1.0",
-    "erlpack": "github:hammerandchisel/erlpack",
-    "js-yaml": "^3.8.3",
-    "right-pad": "^1.0.1",
-    "timehaze": "^0.2.0",
-    "uws": "^0.14.5"
+    "discord.js": "^11.2.1"
   }
 }
