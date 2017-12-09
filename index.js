@@ -5,6 +5,12 @@ const client = new discord.Client()
 
 client.on('ready', () => {
 	if(!config.prefix) config.prefix = `<@${client.user.id}> `
+
+	// TODO: Go over each command and map them to alias etc.
+	bar = require("./commands/ping");
+	foo = new bar();
+	console.log(bar.name)
+	console.log(foo.aliases)
 });
 
 client.on('message', (msg) => {
