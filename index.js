@@ -4,12 +4,12 @@ const config  = require('./config.json')
 
 const client = new discord.Client()
 
+var commands = new Map();
+
 client.on('ready', () => {
 	if(!config.prefix) config.prefix = `<@${client.user.id}> `
 
 	// TODO: Conflict detector for command name and aliases?
-	var commands = new Map();
-
 	fs.readdirSync("./commands").forEach(file => {
 		const construct = require(`./commands/${file}`)
 		const command   = new construct();
@@ -28,7 +28,12 @@ client.on('message', (msg) => {
 	const args = msg.content.slice(config.prefix.length).split(" ");
 	const cmd = args.shift()
 
-	msg.reply(`<< DEBUG >>\nargs = ${args}\ncmd  = ${cmd}`, {code: "xl"})
+	try {
+		commands.get(cmd).execute(msg, args);
+	} catch(e) {
+		console.warn(e)
+		msg.reply(":exclamation: An unknown error occurred.")
+	}
 });
 
 client.on('debug', console.log)
