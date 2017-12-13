@@ -1,35 +1,36 @@
 const discord = require('discord.js')
 const fs      = require("fs")
-const config  = require('./config.json')
 
 const client = new discord.Client()
 
-var commands = new Map();
+client.config   = require('./config.json')
+client.commands = new Map();
 
 client.on('ready', () => {
-	if(!config.prefix) config.prefix = `<@${client.user.id}> `
+	if(!client.config.prefix) client.config.prefix = `<@${client.user.id}> `
+	delete client.config.token
 
 	// TODO: Conflict detector for command name and aliases?
 	fs.readdirSync("./commands").forEach(file => {
 		const construct = require(`./commands/${file}`)
 		const command   = new construct();
 
-		commands.set(command.constructor.name, command)
+		client.commands.set(command.constructor.name, command)
 		command.aliases.forEach(alias => {
-			commands.set(alias, command)
+			client.commands.set(alias, command)
 		})
 	})
 });
 
 client.on('message', (msg) => {
 	if(msg.author.id == client.user.id) return
-	if(!msg.content.startsWith(config.prefix)) return
+	if(!msg.content.startsWith(client.config.prefix)) return
 
-	const args = msg.content.slice(config.prefix.length).split(" ");
+	const args = msg.content.slice(client.config.prefix.length).split(" ");
 	const cmd = args.shift()
 
 	try {
-		commands.get(cmd).execute(msg, args);
+		client.commands.get(cmd).execute(msg, args);
 	} catch(e) {
 		console.warn(e)
 		msg.reply(":exclamation: An unknown error occurred.")
@@ -41,4 +42,4 @@ client.on('error', console.error)
 client.on('warn', console.warn)
 client.on('disconnect', console.warn)
 
-client.login(config.token)
+client.login(client.config.token)
