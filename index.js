@@ -1,8 +1,8 @@
 const discord = require('discord.js')
-const fs      = require("fs")
+const fs      = require('fs')
+const db      = require(`./modules/database.js`)
 
 const client = new discord.Client()
-
 client.config   = require('./config.json')
 client.commands = new Map();
 

@@ -1,4 +1,4 @@
-# Logs
-npm-debug.log*
+*.log*
 node_modules/
 config.json
+db.db
