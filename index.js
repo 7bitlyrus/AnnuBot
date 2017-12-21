@@ -33,7 +33,8 @@ client.on('message', (msg) => {
 	if(!command) return
 
 	if(command.disableDMs && msg.channel.type == 'dm') {
-		msg.reply(typeof command.disableDMs === 'string' ? command.disableDMs : "This command is disabled in DMs.")
+		msg.reply(typeof command.disableDMs === 'string' ?
+			command.disableDMs : "This command is disabled in direct messages.")
 		return
 	}
 
