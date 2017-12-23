@@ -18,6 +18,7 @@
   "homepage": "https://github.com/IanMurray/AnnuBot#readme",
   "dependencies": {
     "discord.js": "^11.2.1",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "nedb-promise": "^2.0.1"
   }
 }
