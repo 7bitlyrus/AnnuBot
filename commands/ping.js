@@ -4,7 +4,7 @@ const discord     = require('discord.js')
 module.exports = class ping extends commandBase {
 	constructor() {
 		super()
-		this.aliases = ['pong']
+		this.aliases     = ['pong']
 		this.description = 'Returns latency information'
 	}
 
