@@ -7,17 +7,16 @@ module.exports = class ping extends commandBase {
 		this.aliases = ['pong']
 	}
 
-	execute(msg) {
+	async execute(msg) {
 		let embed = new discord.RichEmbed()
 		.setTitle('Pong!')
 		.addField('Heartbeat', `${Math.round(msg.client.ping)}ms`, true)
 		.addField('Heartbeat History', `${msg.client.pings.join('ms, ')}ms`, true)
 		.addField('Roundtrip', '\u200B', true)
 
-		msg.channel.send('', embed).then(m => {
-			embed.fields[2] = {name: 'Roundtrip', value: `${m.createdTimestamp - msg.createdTimestamp}ms`, inline: true}
+		let m = await msg.channel.send('', embed)
 
-			m.edit('', embed).catch(console.warn)
-		}).catch(console.warn)
+		embed.fields[2] = {name: 'Roundtrip', value: `${m.createdTimestamp - msg.createdTimestamp}ms`, inline: true}
+		m.edit('', embed).catch(console.warn)
 	}
 }
