@@ -1,9 +1,11 @@
 const discord = require('discord.js')
 const fs      = require('fs')
 const db      = require('./modules/database.js')
+const config   = require('./config.json')
 
 const client = new discord.Client()
-client.config   = require('./config.json')
+client.config = config
+client.db = db
 client.commands = new Map();
 
 client.on('ready', () => {
