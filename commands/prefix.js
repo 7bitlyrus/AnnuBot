@@ -3,7 +3,8 @@ const commandBase = require('../modules/commandBase')
 module.exports = class prefix extends commandBase {
 	constructor() {
 		super()
-		this.disableDMs = "Prefixes are not used in direct messages."
+		this.disableDMs  = 'Prefixes are not used in direct messages.'
+		this.description = 'Views or sets a servers\'s prefix'
 	}
 	async execute(msg, args) {
 		let db = msg.client.db
