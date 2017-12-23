@@ -8,8 +8,8 @@ client.config = config
 client.db = db
 client.commands = new Map();
 
+
 client.on('ready', () => {
-	if(!client.config.prefix) client.config.prefix = '<@${client.user.id}> '
 	delete client.config.token
 
 	// TODO: Conflict detector for command name and aliases?
@@ -22,13 +22,23 @@ client.on('ready', () => {
 			client.commands.set(alias, command)
 		})
 	})
-});
+})
 
-client.on('message', (msg) => {
-	if(msg.author.id == client.user.id)
-	if(!msg.content.startsWith(client.config.prefix)) return
+client.on('message', async function(msg) {
+	if(msg.author.id == client.user.id) return
 
-	const args = msg.content.slice(client.config.prefix.length).split(" ");
+	let prefix = `<@${client.user.id}> `            // Prefix defaults to our mention.
+
+	if(msg.channel.type == 'dm') prefix = ''        // Prefixes arn't used in DMs.
+	else if(msg.content.startsWith(prefix)) void(0) // If it starts with our mention, don't use server prefix.
+	else {
+		doc = await db.ensureIDExists(msg.guild.id)
+		if(doc.prefix) prefix = doc.prefix
+	}
+
+	if(!msg.content.startsWith(prefix)) return
+
+	const args = msg.content.slice(prefix.length).split(" ");
 	const cmd = args.shift()
 
 	const command = client.commands.get(cmd)
@@ -44,9 +54,9 @@ client.on('message', (msg) => {
 		command.execute(msg, args);
 	} catch(e) {
 		console.warn(e)
-		msg.reply('An unknown error occurred.')
+		msg.reply(`An error occurred.`)
 	}
-});
+})
 
 client.on('debug', console.log)
 client.on('error', console.error)
