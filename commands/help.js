@@ -46,26 +46,32 @@ module.exports = class help extends commandBase {
 				if(msg.channel.type !== 'dm') msg.reply('Unable to send you a DM, is your DMs open?')
 			})
 		} else {
-			if(!commands.get(args[0])) return msg.reply('Command not found.')
+			let usage = this._returnUsage(args[0], commands)
 
-			let command = commands.get(args[0])
-			let aliases = [command.constructor.name, ...command.aliases]
-
-			let text = []
-			text[0] = aliases.length > 1  ? `{${aliases.join(",")}}`    : aliases[0]
-			text[1] = command.usage.args  ? ` ${command.usage.args}`    : ''
-			text[2] = command.description ? ` - ${command.description}` : ''
-			text[3] = command.usage.text  ? `\n\n${command.usage.text}` : ''
-
-			msg.channel.send(text.join(''), {code: true})
+			if(!usage) msg.reply('Command not found.')
+			else msg.channel.send(usage, {code: true})
 		}
+	}
+
+	_returnUsage(cname, commands) {
+		if(!commands.get(cname)) return false
+
+		let command = commands.get(cname)
+		let aliases = [command.constructor.name, ...command.aliases]
+		let text = []
+
+		text[0] = aliases.length > 1 ? `{${aliases.join(",")}}` : aliases[0]
+		if(command.usage.args)  text.push(` ${command.usage.args}`)
+		if(command.description) text.push(` - ${command.description}`)
+		if(command.usage.text)  text.push(`\n\n${command.usage.text}`)
+
+		return text.join('')
 	}
 }
 		
-function rightPad(str, len, char) {
+function rightPad(str, len) {
 	var i = -1
 	len = len - str.length
-	if (!char && char !== 0) char = ' '
-	while (++i < len) str += char;
+	while (++i < len) str += ' ';
 	return str
 }
