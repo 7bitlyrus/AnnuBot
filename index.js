@@ -1,13 +1,12 @@
 const discord = require('discord.js')
 const fs      = require('fs')
 const db      = require('./modules/database.js')
-const config   = require('./config.json')
+const config  = require('./config.json')
 
-const client = new discord.Client()
-client.config = config
-client.db = db
+const client    = new discord.Client()
+client.config   = config
+client.db       = db
 client.commands = new Map();
-
 
 client.on('ready', () => {
 	delete client.config.token
@@ -29,7 +28,7 @@ client.on('message', async function(msg) {
 
 	let prefix = `<@${client.user.id}> `            // Prefix defaults to our mention.
 
-	if(msg.channel.type == 'dm') prefix = ''        // Prefixes arn't used in DMs.
+	if(msg.channel.type == 'dm') prefix = ''        // Prefixes are not used in DMs.
 	else if(msg.content.startsWith(prefix)) void(0) // If it starts with our mention, don't use server prefix.
 	else {
 		doc = await db.ensureIDExists(msg.guild.id)
@@ -38,7 +37,7 @@ client.on('message', async function(msg) {
 
 	if(!msg.content.startsWith(prefix)) return
 
-	const args = msg.content.slice(prefix.length).split(" ");
+	const args = msg.content.slice(prefix.length).split(' ');
 	const cmd = args.shift()
 
 	const command = client.commands.get(cmd)
@@ -46,7 +45,7 @@ client.on('message', async function(msg) {
 
 	if(command.disableDMs && msg.channel.type == 'dm') {
 		msg.reply(typeof command.disableDMs === 'string' ?
-			command.disableDMs : "This command is disabled in direct messages.")
+			command.disableDMs : 'This command is disabled in direct messages.')
 		return
 	}
 

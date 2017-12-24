@@ -22,7 +22,7 @@ module.exports = class prefix extends commandBase {
 			let prefix = args[0] == 'disable' ? undefined : args[0];
 			let doc = await db.ensureIDExists(msg.guild.id)
 
-			if(doc.prefix == prefix) return msg.reply("This server's prefix has not been modifed.")
+			if(doc.prefix == prefix) return msg.reply('This server\'s prefix has not changed.')
 			await db.update({_id: doc._id}, {$set: {prefix: prefix}})
 
 			let newDoc = await db.ensureIDExists(msg.guild.id)
