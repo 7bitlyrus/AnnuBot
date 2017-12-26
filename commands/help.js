@@ -46,17 +46,17 @@ module.exports = class help extends commandBase {
 				if(msg.channel.type !== 'dm') msg.reply('Unable to send you a DM, is your DMs open?')
 			})
 		} else {
-			let usage = this._returnUsage(args[0], commands)
+			let usage = this._returnUsage(msg.client, args[0])
 
 			if(!usage) msg.reply('Command not found.')
-			else msg.channel.send(usage, {code: true})
+			else msg.reply(usage, {code: true})
 		}
 	}
 
-	_returnUsage(cname, commands) {
-		if(!commands.get(cname)) return false
+	_returnUsage(client, name) {
+		if(!client.commands.get(name)) return false
 
-		let command = commands.get(cname)
+		let command = client.commands.get(name)
 		let aliases = [command.constructor.name, ...command.aliases]
 		let text = []
 
