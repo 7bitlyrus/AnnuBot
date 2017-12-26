@@ -37,10 +37,10 @@ client.on('message', async function(msg) {
 
 	if(!msg.content.startsWith(prefix)) return
 
-	const args = msg.content.slice(prefix.length).split(' ');
-	const cmd = args.shift()
-
+	const args    = msg.content.slice(prefix.length).split(' ');
+	const cmd     = args.shift()
 	const command = client.commands.get(cmd)
+
 	if(!command) return
 
 	if(command.disableDMs && msg.channel.type == 'dm') {
@@ -50,7 +50,7 @@ client.on('message', async function(msg) {
 	}
 
 	try {
-		command.execute(msg, args);
+		command.execute(msg, args)
 	} catch(e) {
 		console.warn(e)
 		msg.reply(`An error occurred.`)
