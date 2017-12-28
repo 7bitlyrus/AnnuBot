@@ -1,5 +1,6 @@
 const discord = require('discord.js')
 const fs      = require('fs')
+const util    = require('util')
 const db      = require('./modules/database.js')
 const config  = require('./config.json')
 
@@ -38,7 +39,7 @@ client.on('message', async function(msg) {
 	if(!msg.content.startsWith(prefix)) return
 
 	const args    = msg.content.slice(prefix.length).split(' ');
-	const cmd     = args.shift()
+	const cmd     = args.shift().toLowerCase()
 	const command = client.commands.get(cmd)
 
 	if(!command) return
@@ -50,11 +51,8 @@ client.on('message', async function(msg) {
 	}
 
 	try {
-		command.execute(msg, args)
-	} catch(e) {
-		console.warn(e)
-		msg.reply(`An error occurred.`)
-	}
+		command.execute(msg, args).catch(e => errHandle(e, msg))
+	} catch(e) { errHandle(e, msg) }
 })
 
 client.on('debug', console.log)
@@ -63,3 +61,9 @@ client.on('warn', console.warn)
 client.on('disconnect', console.warn)
 
 client.login(client.config.token)
+
+function errHandle(e, msg) {
+	msg.channel.stopTyping()
+	msg.reply(`Error occurred: ${e}`)
+	console.warn(`An error occurred when running '${msg.content}' from ${msg.author.tag}:\n${util.inspect(e)}`)
+}

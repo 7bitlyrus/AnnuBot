@@ -10,7 +10,7 @@ module.exports = class help extends commandBase {
 			'given command.'
 	}
 
-	execute(msg, args) {
+	async execute(msg, args) {
 		let commands = msg.client.commands
 
 		if(!args[0]) {
@@ -54,9 +54,9 @@ module.exports = class help extends commandBase {
 	}
 
 	_returnUsage(client, name) {
-		if(!client.commands.get(name)) return false
+		if(!client.commands.get(name.toLowerCase())) return false
 
-		let command = client.commands.get(name)
+		let command = client.commands.get(name.toLowerCase())
 		let aliases = [command.constructor.name, ...command.aliases]
 		let text = []
 

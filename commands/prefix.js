@@ -19,7 +19,7 @@ module.exports = class prefix extends commandBase {
 				`This server's prefix is \`${doc.prefix}\`.` : 'This server does not have a prefix.')
 
 		} else if(msg.member.hasPermission('MANAGE_GUILD')) {
-			let prefix = args[0] == 'disable' ? undefined : args[0];
+			let prefix = args[0].toLowerCase() == 'disable' ? undefined : args[0];
 			let doc = await db.ensureIDExists(msg.guild.id)
 
 			if(doc.prefix == prefix) return msg.reply('This server\'s prefix has not changed.')
