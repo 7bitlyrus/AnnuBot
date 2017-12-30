@@ -64,6 +64,6 @@ client.login(client.config.token)
 
 function errHandle(e, msg) {
 	msg.channel.stopTyping()
-	msg.reply(`Error occurred: ${e}`)
+	msg.reply(`An error occurred while attempting to execute your command.\n\`\`\`${e}\`\`\``)
 	console.warn(`An error occurred when running '${msg.content}' from ${msg.author.tag}:\n${util.inspect(e)}`)
 }

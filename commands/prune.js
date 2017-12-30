@@ -24,13 +24,10 @@ module.exports = class prune extends commandBase {
 		if(num > 100 || num < 2) return msg.reply('Between 2 and 100 messages can be pruned at once.')
 
 		await msg.delete().then(async function() {
-			let final = await msg.channel.bulkDelete(num).catch(console.error)
+			let final = await msg.channel.bulkDelete(num)
 			let count = final.size
 
 			msg.reply(`${count} message${count == 1 ? '' : 's'} were deleted.`)
-		}).catch(e => {
-			console.log(e)
-			return msg.reply("An error occurred. Missing permissions?")
-		});
+		})
 	}
 }

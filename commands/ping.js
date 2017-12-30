@@ -18,6 +18,6 @@ module.exports = class ping extends commandBase {
 		let m = await msg.channel.send('', embed)
 
 		embed.fields[2] = {name: 'Roundtrip', value: `${m.createdTimestamp - msg.createdTimestamp}ms`, inline: true}
-		m.edit('', embed).catch(console.warn)
+		m.edit('', embed)
 	}
 }

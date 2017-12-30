@@ -38,7 +38,7 @@ module.exports = class help extends commandBase {
 
 			lines.push('', '# Type help <command> for usage on a command.')
 
-			let text = lines.join("\n")
+			let text = lines.join('\n')
 
 			msg.author.send(text, {code: 'md'}).then(() => {
 				if(msg.channel.type !== 'dm') msg.reply('Check your DMs!')
