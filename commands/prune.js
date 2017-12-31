@@ -23,7 +23,7 @@ module.exports = class prune extends commandBase {
 		if(isNaN(num)) return msg.reply('Invaild number.')
 		if(num > 100 || num < 2) return msg.reply('Between 2 and 100 messages can be pruned at once.')
 
-		await msg.delete().then(async function() {
+		msg.delete().then(async function() {
 			let final = await msg.channel.bulkDelete(num)
 			let count = final.size
 
