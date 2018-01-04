@@ -9,7 +9,9 @@ client.config   = config
 client.db       = db
 client.commands = new Map();
 
-client.on('ready', () => {
+client.on('ready', async function() {
+	client.appInfo = await client.fetchApplication();
+
 	// TODO: Conflict detector for command name and aliases?
 	fs.readdirSync('./commands').forEach(file => {
 		const construct = require(`./commands/${file}`)
