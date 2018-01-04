@@ -12,6 +12,7 @@ module.exports = class prune extends commandBase {
 			'message. Count must be between 2 and 100, inclusive. Messages older then 2 weeks cannot be pruned ' +
 			'automatically. MANAGE_MESSAGES permission is required to prune messages.'
 	}
+
 	async execute(msg, args) {
 		if(!msg.member.hasPermission('MANAGE_MESSAGES')) {
 			return msg.reply('You do not have permission to prune messages.')
@@ -27,7 +28,7 @@ module.exports = class prune extends commandBase {
 			let final = await msg.channel.bulkDelete(num)
 			let count = final.size
 
-			msg.reply(`${count} message${count == 1 ? '' : 's'} were deleted.`)
+			msg.reply(`${count} message${count === 1 ? '' : 's'} were deleted.`)
 		})
 	}
 }

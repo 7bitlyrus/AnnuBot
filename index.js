@@ -25,11 +25,11 @@ client.on('ready', () => {
 })
 
 client.on('message', async function(msg) {
-	if(msg.author.id == client.user.id) return
+	if(msg.author.id === client.user.id) return
 
 	let prefix = `<@${client.user.id}> `            // Prefix defaults to our mention.
 
-	if(msg.channel.type == 'dm') prefix = ''        // Prefixes are not used in DMs.
+	if(msg.channel.type === 'dm') prefix = ''        // Prefixes are not used in DMs.
 	else if(msg.content.startsWith(prefix)) void(0) // If it starts with our mention, don't use server prefix.
 	else {
 		doc = await db.ensureIDExists(msg.guild.id)
@@ -44,7 +44,7 @@ client.on('message', async function(msg) {
 
 	if(!command) return
 
-	if(command.disableDMs && msg.channel.type == 'dm') {
+	if(command.disableDMs && msg.channel.type === 'dm') {
 		msg.reply(typeof command.disableDMs === 'string' ?
 			command.disableDMs : 'This command is disabled in direct messages.')
 		return

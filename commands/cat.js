@@ -1,5 +1,5 @@
 const commandBase = require('../modules/commandBase')
-const request     = require('superagent');
+const request     = require('superagent')
 const Discord     = require('discord.js')
 
 module.exports = class cat extends commandBase {
@@ -8,6 +8,7 @@ module.exports = class cat extends commandBase {
 		this.description = 'Shows a random cat photo'
 		this.usage.text  = 'Powered by random.cat.'
 	}
+	
 	async execute(msg, args) {
 		msg.channel.startTyping()
 
