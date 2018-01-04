@@ -1,8 +1,8 @@
-const commandBase  = require('../modules/commandBase')
-const Help = require('./help')
-const help = new Help();  
+const Command = require('../modules/command')
+const Help    = require('./help')
+const help    = new Help();  
 
-module.exports = class prune extends commandBase {
+class Prune extends Command {
 	constructor() {
 		super()
 		this.disableDMs  = 'You cannot prune messages in DMs.'
@@ -32,3 +32,5 @@ module.exports = class prune extends commandBase {
 		})
 	}
 }
+
+module.exports = Prune 

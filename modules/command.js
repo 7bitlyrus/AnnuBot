@@ -1,4 +1,4 @@
-module.exports = class {
+class Command {
 	constructor() {
 		this.aliases     = []
 		this.disableDMs  = false
@@ -6,3 +6,5 @@ module.exports = class {
 		this.usage       = {args: undefined, text: undefined}
 	}
 }
+
+module.exports = Command

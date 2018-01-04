@@ -1,6 +1,6 @@
-const commandBase = require('../modules/commandBase')
+const Command = require('../modules/command')
 
-module.exports = class help extends commandBase {
+class Help extends Command {
 	constructor() {
 		super()
 		this.aliases     = ['?']
@@ -75,3 +75,5 @@ function rightPad(str, len) {
 	while (++i < len) str += ' ';
 	return str
 }
+
+module.exports = Help

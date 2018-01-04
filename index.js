@@ -10,14 +10,12 @@ client.db       = db
 client.commands = new Map();
 
 client.on('ready', () => {
-	delete client.config.token
-
 	// TODO: Conflict detector for command name and aliases?
 	fs.readdirSync('./commands').forEach(file => {
 		const construct = require(`./commands/${file}`)
 		const command   = new construct();
 
-		client.commands.set(command.constructor.name, command)
+		client.commands.set(command.constructor.name.toLowerCase(), command)
 		command.aliases.forEach(alias => {
 			client.commands.set(alias, command)
 		})

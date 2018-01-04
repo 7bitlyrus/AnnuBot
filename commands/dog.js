@@ -1,8 +1,8 @@
-const commandBase = require('../modules/commandBase')
-const request     = require('superagent')
-const Discord     = require('discord.js')
+const Command = require('../modules/command')
+const Discord = require('discord.js')
+const request = require('superagent')
 
-module.exports = class dog extends commandBase {
+class Dog extends Command {
 	constructor() {
 		super()
 		this.description = 'Shows a random dog photo'
@@ -22,3 +22,5 @@ module.exports = class dog extends commandBase {
 		msg.reply(img)
 	}
 }
+
+module.exports = Dog

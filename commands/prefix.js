@@ -1,6 +1,6 @@
-const commandBase = require('../modules/commandBase')
+const Command = require('../modules/command')
 
-module.exports = class prefix extends commandBase {
+class Prefix extends Command {
 	constructor() {
 		super()
 		this.disableDMs  = 'Prefixes are not used in direct messages.'
@@ -33,6 +33,8 @@ module.exports = class prefix extends commandBase {
 		} else {
 			msg.reply('You do not have permission to modify the prefix for this server.')
 		}
-
 	}
 }
+
+
+module.exports = Prefix

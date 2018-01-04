@@ -1,7 +1,7 @@
-const commandBase = require('../modules/commandBase')
-const discord     = require('discord.js')
+const Command = require('../modules/command')
+const Discord = require('discord.js')
 
-module.exports = class ping extends commandBase {
+class Ping extends Command {
 	constructor() {
 		super()
 		this.aliases     = ['pong']
@@ -9,7 +9,7 @@ module.exports = class ping extends commandBase {
 	}
 
 	async execute(msg) {
-		let embed = new discord.RichEmbed()
+		let embed = new Discord.RichEmbed()
 		.setTitle('Pong!')
 		.addField('Heartbeat', `${Math.round(msg.client.ping)}ms`, true)
 		.addField('Heartbeat History', `${msg.client.pings.join('ms, ')}ms`, true)
@@ -21,3 +21,5 @@ module.exports = class ping extends commandBase {
 		m.edit('', embed)
 	}
 }
+
+module.exports = Ping
