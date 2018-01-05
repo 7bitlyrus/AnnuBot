@@ -1,6 +1,5 @@
 const Command = require('../modules/command')
 const Help    = require('./help')
-const help    = new Help();  
 
 class Prune extends Command {
 	constructor() {
@@ -20,7 +19,7 @@ class Prune extends Command {
 
 		let num = args[0]
 		
-		if(!num) return msg.reply(help._returnUsage(msg.client, 'prune'), {code: true})
+		if(!num) return msg.reply(Help.returnUsage(msg.client, 'prune'), {code: true})
 		if(isNaN(num)) return msg.reply('Invaild number.')
 		if(num > 100 || num < 2) return msg.reply('Between 2 and 100 messages can be pruned at once.')
 

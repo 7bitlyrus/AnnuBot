@@ -46,14 +46,14 @@ class Help extends Command {
 				if(msg.channel.type !== 'dm') msg.reply('Unable to send you a DM, is your DMs open?')
 			})
 		} else {
-			let usage = this._returnUsage(msg.client, args[0])
+			let usage = this.constructor.returnUsage(msg.client, args[0])
 
 			if(!usage) msg.reply('Command not found.')
 			else msg.reply(usage, {code: true})
 		}
 	}
 
-	_returnUsage(client, name) {
+	static returnUsage(client, name) {
 		if(!client.commands.get(name.toLowerCase())) return false
 
 		let command = client.commands.get(name.toLowerCase())
