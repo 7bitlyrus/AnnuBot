@@ -33,4 +33,4 @@ class Prune extends Command {
 	}
 }
 
-module.exports = Prune 
+module.exports = Prune

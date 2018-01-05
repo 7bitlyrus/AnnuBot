@@ -12,14 +12,18 @@ client.commands = new Map();
 client.on('ready', async function() {
 	client.appInfo = await client.fetchApplication();
 
-	// TODO: Conflict detector for command name and aliases?
 	fs.readdirSync('./commands').forEach(file => {
-		const construct = require(`./commands/${file}`)
-		const command   = new construct();
+		let commands = require(`./commands/${file}`)
 
-		client.commands.set(command.constructor.name.toLowerCase(), command)
-		command.aliases.forEach(alias => {
-			client.commands.set(alias, command)
+		if(!(commands instanceof Array)) commands = [commands]
+
+		commands.forEach(Command => {
+			let command = new Command();
+
+			client.commands.set(command.constructor.name.toLowerCase(), command)
+			command.aliases.forEach(alias => {
+				client.commands.set(alias, command)
+			})
 		})
 	})
 })
@@ -29,7 +33,7 @@ client.on('message', async function(msg) {
 
 	let prefix = `<@${client.user.id}> `            // Prefix defaults to our mention.
 
-	if(msg.channel.type === 'dm') prefix = ''        // Prefixes are not used in DMs.
+	if(msg.channel.type === 'dm') prefix = ''       // Prefixes are not used in DMs.
 	else if(msg.content.startsWith(prefix)) void(0) // If it starts with our mention, don't use server prefix.
 	else {
 		doc = await db.ensureIDExists(msg.guild.id)
@@ -38,17 +42,14 @@ client.on('message', async function(msg) {
 
 	if(!msg.content.startsWith(prefix)) return
 
-	const args    = msg.content.slice(prefix.length).split(' ');
-	const cmd     = args.shift().toLowerCase()
-	const command = client.commands.get(cmd)
+	let args    = msg.content.slice(prefix.length).split(' ');
+	let cmd     = args.shift().toLowerCase()
+	let command = client.commands.get(cmd)
 
 	if(!command) return
 
-	if(command.disableDMs && msg.channel.type === 'dm') {
-		msg.reply(typeof command.disableDMs === 'string' ?
+	if(command.disableDMs && msg.channel.type === 'dm') return msg.reply(typeof command.disableDMs === 'string' ?
 			command.disableDMs : 'This command is disabled in direct messages.')
-		return
-	}
 
 	try {
 		command.execute(msg, args).catch(e => errHandle(e, msg))
@@ -59,6 +60,8 @@ client.on('debug', console.log)
 client.on('error', console.error)
 client.on('warn', console.warn)
 client.on('disconnect', console.warn)
+
+process.on('unhandledRejection', (r, p) => console.warn('UnhandledRejection: ', r, p))
 
 client.login(client.config.token)
 
