@@ -19,7 +19,7 @@ class Help extends Command {
 			let maxLen = [0, 0]
 
 			for (let [key, command] of commands) {
-				if(key != command.constructor.name) continue
+				if(key != command.constructor.name.toLowerCase()) continue
 				if(!command.description) continue
 
 				let name = command.constructor.name
