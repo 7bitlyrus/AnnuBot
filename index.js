@@ -9,8 +9,9 @@ client.config = config
 client.db = db
 client.commands = new Map()
 
-client.on('ready', async function () {
-  client.appInfo = await client.fetchApplication()
+client.on('ready', async () => {
+  let appInfo = await client.fetchApplication()
+  client.owner = await client.fetchUser(appInfo.owner.id)
 
   fs.readdirSync('./commands').forEach(file => {
     let commands = require(`./commands/${file}`)
@@ -19,16 +20,20 @@ client.on('ready', async function () {
 
     commands.forEach(Command => {
       let command = new Command()
+      let name = command.constructor.name.toLowerCase()
 
-      client.commands.set(command.constructor.name.toLowerCase(), command)
+      console.log(`Loading command ${name}...`)
+      client.commands.set(name, command)
       command.aliases.forEach(alias => {
         client.commands.set(alias, command)
       })
     })
   })
+
+  console.log('Ready.')
 })
 
-client.on('message', async function (msg) {
+client.on('message', async msg => {
   if (msg.author.id === client.user.id) return
 
   let prefix = `<@${client.user.id}> ` // Prefix defaults to our mention.
@@ -51,6 +56,10 @@ client.on('message', async function (msg) {
   if (command.disableDMs && msg.channel.type === 'dm') {
     return msg.reply(typeof command.disableDMs === 'string'
       ? command.disableDMs : 'This command is disabled in direct messages.')
+  }
+
+  if (command.ownerOnly && msg.author.id !== client.owner.id) {
+    return msg.reply(`Only the bot owner, ${client.owner.tag}, can run this command.`)
   }
 
   try {
