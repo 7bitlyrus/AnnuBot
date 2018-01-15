@@ -1,5 +1,7 @@
 const Command = require('../modules/command')
 
+const U_MAILBOX = '\uD83D\uDCEC'
+
 class Help extends Command {
   constructor () {
     super()
@@ -41,7 +43,7 @@ class Help extends Command {
       let text = lines.join('\n')
 
       msg.author.send(text, {code: 'md'}).then(() => {
-        if (msg.channel.type !== 'dm') msg.reply('Check your DMs!')
+        if (msg.channel.type !== 'dm') msg.react(U_MAILBOX)
       }).catch(() => {
         if (msg.channel.type !== 'dm') msg.reply('Unable to send you a DM, is your DMs open?')
       })
