@@ -1,10 +1,12 @@
 const Command = require('../modules/command')
 const inspect = require('util').inspect
+const request = require('superagent')
 
 const U_OK_HAND = '\uD83D\uDC4C'
 const U_NBSP = '\u200B'
 const U_WARNING = '\u26A0'
 const R_CODEBLOCK = /```(?:.+\n)?((?:.|\n)+)```/
+const S_HASTE_SERVER = 'https://hastebin.com'
 
 class Eval extends Command {
   constructor () {
@@ -15,6 +17,7 @@ class Eval extends Command {
   async execute (msg, args) {
     let code = codeblockProcess(args)
     let result
+    let emoji
 
     try {
       result = eval(code) // eslint-disable-line no-eval
@@ -22,12 +25,17 @@ class Eval extends Command {
       if (!result) return msg.react(U_OK_HAND)
       if (typeof result !== 'string') result = inspect(result)
 
-      result = `${U_OK_HAND} ${result}`
+      emoji = U_OK_HAND
     } catch (e) {
-      result = `${U_WARNING} ${e}`
+      emoji = U_WARNING
+      result = e.toString()
     }
 
-    msg.reply(clean(result), { code: 'xl', split: true })
+    if (result.length > 1950) {
+      let req = await request.post(`${S_HASTE_SERVER}/documents`)
+        .send(result)
+      msg.reply(`${emoji} Result is lengthy. Uploaded to ${S_HASTE_SERVER}/${req.body.key}`)
+    } else msg.reply(clean(`${emoji} ${result}`), { code: 'xl' })
   }
 }
 
