@@ -10,7 +10,7 @@ class Cat extends Command {
   }
 
   async execute (msg) {
-    factory(msg, 'http://random.cat/meow', 'file')
+    factory(msg, 'http://aws.random.cat/meow', 'file')
   }
 }
 
